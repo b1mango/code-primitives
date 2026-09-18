@@ -1,6 +1,6 @@
 /**
  * Agent Command Card Component Styles
- * Inspired by Mirasim terminal execution cards.
+ * Universal execution card micro-animations for AI Agent & terminal CLI.
  * Designed for low-latency, GPU-accelerated execution animations & accessibility.
  */
 
@@ -158,7 +158,7 @@
   stroke: var(--acc-status-error);
 }
 
-/* === Effect 1: Native Mirasim Spinner === */
+/* === Effect 1: Native Precision Spinner (微旋环) === */
 .acc-spinner-ring {
   width: 12px;
   height: 12px;

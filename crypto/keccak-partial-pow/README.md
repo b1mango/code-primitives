@@ -4,13 +4,15 @@ domain: crypto
 title: 跳步 Keccak-f[1600] 零堆分配 PoW 求解器
 language: go
 tags: [crypto, pow, keccak, zero-allocation, sha3]
-source: "CJackHwang/ds2api"
+source: "https://github.com/CJackHwang/ds2api"
 test_cmd: "go test -v -bench=. ./..."
 dependencies: []
 created: 2026-09-18
 ---
 
 # 跳步 Keccak-f[1600] 零堆分配 PoW 求解器
+
+> 来源与致谢：参考并提炼自 [CJackHwang/ds2api](https://github.com/CJackHwang/ds2api)，在其 PoW 逆向解法基础上完成了独立原语抽离、纯 Go 展开与零分配测试验证。
 
 本模块是 DeepSeek 网页端工作量证明（PoW）`DeepSeekHashV1` 挑战的高性能纯 Go 解法与哈希还原。
 

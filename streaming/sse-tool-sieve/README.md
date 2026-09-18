@@ -4,13 +4,15 @@ domain: streaming
 title: 流式输出工具调用防泄漏状态机 (Tool Sieve)
 language: go
 tags: [streaming, sse, tool-call, markdown-fence, sliding-window]
-source: "CJackHwang/ds2api"
+source: "https://github.com/CJackHwang/ds2api"
 test_cmd: "go test -v ./..."
 dependencies: []
 created: 2026-09-18
 ---
 
 # 流式输出工具调用防泄漏状态机 (Tool Sieve)
+
+> 来源与致谢：参考并提炼自 [CJackHwang/ds2api](https://github.com/CJackHwang/ds2api)，在其流式工具调用拦截状态机基础上完成了模块解耦、边界与 Markdown 代码块全量单测覆盖。
 
 本模块提供了一种在 LLM 流式输出（SSE）过程中，实时拦截、隔离和提取 XML/DSML 工具调用，同时彻底防止标签闪烁与 Markdown 误判的状态机实现。
 

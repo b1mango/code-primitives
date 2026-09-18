@@ -4,13 +4,15 @@ domain: network
 title: Safari TLS 指纹模拟与 ALPN HTTP/1.1 强制降级
 language: go
 tags: [network, utls, tls-fingerprint, waf-bypass, safari]
-source: "CJackHwang/ds2api"
+source: "https://github.com/CJackHwang/ds2api"
 test_cmd: "go test -v ./..."
 dependencies: ["github.com/refraction-networking/utls"]
 created: 2026-09-18
 ---
 
 # Safari TLS 指纹模拟与 ALPN HTTP/1.1 强制降级
+
+> 来源与致谢：参考并提炼自 [CJackHwang/ds2api](https://github.com/CJackHwang/ds2api)，在其 uTLS Safari 传输层配置基础上完成了独立 Client 封装、ALPN 重写机制与握手测试。
 
 本模块提供了一个可直接替代 Go 原生 `*http.Client` 的传输层适配器，用于在 HTTP 请求中伪装 Apple Safari 浏览器的 TLS ClientHello 握手指纹（JA3/JA4），并动态将 ALPN 降级为 `HTTP/1.1`。
 

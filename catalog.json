@@ -4,39 +4,64 @@
     "domain": "crypto",
     "title": "跳步 Keccak-f[1600] 零堆分配 PoW 求解器",
     "language": "go",
-    "tags": ["crypto", "pow", "keccak", "zero-allocation", "sha3"],
+    "tags": [
+      "crypto",
+      "pow",
+      "keccak",
+      "zero-allocation",
+      "sha3"
+    ],
     "path": "crypto/keccak-partial-pow",
     "summary": "纯 Go 实现跳过 round 0 的 23 轮 Keccak-f[1600] 置换，采用前缀预吸收与栈寄存器比对，热循环 0 堆分配",
-    "source": "CJackHwang/ds2api"
+    "source": "https://github.com/CJackHwang/ds2api"
   },
   {
     "id": "streaming-sse-tool-sieve",
     "domain": "streaming",
     "title": "流式输出工具调用防泄漏状态机 (Tool Sieve)",
     "language": "go",
-    "tags": ["streaming", "sse", "tool-call", "markdown-fence", "sliding-window"],
+    "tags": [
+      "streaming",
+      "sse",
+      "tool-call",
+      "markdown-fence",
+      "sliding-window"
+    ],
     "path": "streaming/sse-tool-sieve",
     "summary": "滑动窗口切分安全字符与可疑前缀，感知 Markdown 代码块边界防止误判，无损 Flush 兜底",
-    "source": "CJackHwang/ds2api"
+    "source": "https://github.com/CJackHwang/ds2api"
   },
   {
     "id": "network-utls-safari-transport",
     "domain": "network",
     "title": "Safari TLS 指纹模拟与 ALPN HTTP/1.1 强制降级",
     "language": "go",
-    "tags": ["network", "utls", "tls-fingerprint", "waf-bypass", "safari"],
+    "tags": [
+      "network",
+      "utls",
+      "tls-fingerprint",
+      "waf-bypass",
+      "safari"
+    ],
     "path": "network/utls-safari-transport",
     "summary": "基于 uTLS 模拟 Safari ClientHello，动态重写 ALPN 降级至 HTTP/1.1 规避复杂 H2 行为指纹",
-    "source": "CJackHwang/ds2api"
+    "source": "https://github.com/CJackHwang/ds2api"
   },
   {
     "id": "ui-agent-command-card",
     "domain": "ui",
     "title": "Agent 终端执行框与动态状态机卡片",
     "language": "javascript",
-    "tags": ["ui", "agent-card", "animation", "web-component", "mirasim", "css"],
+    "tags": [
+      "ui",
+      "agent-card",
+      "animation",
+      "web-component",
+      "terminal",
+      "css"
+    ],
     "path": "ui/agent-command-card",
-    "summary": "复刻并优化 Mirasim 风格的 Agent 命令卡片动效（微光/扫光/光束/光标），零依赖 Web Component，带无障碍减弱动态支持",
-    "source": "Mirasim Web UI (逆向与优化)"
+    "summary": "面向 Agent 终端命令执行的高性能通用微动效卡片（微旋环/呼吸光/扫光/光束/光标），零依赖 Web Component，带无障碍支持",
+    "source": "https://github.com/b1mango/code-primitives/tree/main/ui/agent-command-card"
   }
 ]

@@ -3,8 +3,8 @@ id: ui-agent-command-card
 domain: ui
 title: Agent 终端执行框与动态状态机卡片
 language: javascript
-tags: [ui, agent-card, animation, web-component, mirasim, css]
-source: "Mirasim Web UI (逆向与优化)"
+tags: [ui, agent-card, animation, web-component, terminal, css]
+source: "https://github.com/b1mango/code-primitives/tree/main/ui/agent-command-card"
 test_cmd: "node --test command_card_test.js"
 dependencies: []
 created: 2026-09-19
@@ -12,7 +12,9 @@ created: 2026-09-19
 
 # Agent 终端执行框与动态状态机卡片
 
-本模块复刻并优化了 **Mirasim Agent 桌面端/网页端标志性的命令卡片（Command Card）交互与执行动效**。将其封装为零外部依赖的 Web Component 与高纯度 CSS 原语，支持在 React、Vue、Svelte 或原生 HTML 中即插即用。
+> 来源与致谢：灵感源自前沿 Agent 桌面端/网页端（如 Mirasim 等 CLI 执行框）的标志性微动效，经纯化重构与性能升级，抽离为零外部依赖、高普适性的独立 Web Component 与 CSS 原语。
+
+本模块提供了一套面向 AI Agent 终端执行框（Command Card）的高性能微动效与状态机卡片组件，支持在 React、Vue、Svelte 或原生 HTML 中即插即用。
 
 ### 1. 痛点与设计背景
 在构建面向 AI Agent 的交互界面时，工具调用和 Shell 命令的展示面临几个工程体验痛点：
@@ -23,7 +25,7 @@ created: 2026-09-19
 ### 2. 优化与工程亮点
 - **零依赖 Web Component**：直接提供 `<agent-command-card>` 自定义标签，支持 `command`、`status`（`idle` | `running` | `success` | `error`）、`effect`、`duration` 等属性的实时响应。
 - **5 种硬件加速微动效（GPU-Accelerated）**：
-  1. `native`：Mirasim 经典单段高精度无级旋转环（Linear Spin Ring）；
+  1. `native`：高精度无级单段微旋环（Linear Spin Ring）；
   2. `pulse`：呼吸式发光边框（Soft Pulse Glow）；
   3. `shimmer`：顶部边缘跑马灯扫光（Stream Shimmer）；
   4. `beam`：角部流动光束描边（Corner Border Beam，利用 Conic-Gradient 与 Mask）；
