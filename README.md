@@ -1,12 +1,59 @@
+<div align="center">
+
 # Code Primitives
 
-> A curated lab of self-contained, production-grade, and verified engineering primitives for human developers and AI agents.
+<p><b>面向多语言工程实践的高价值代码原语与自包含模式资产库</b></p>
+<p><i>A curated lab of self-contained, production-grade, and verified engineering primitives for human developers and AI agents.</i></p>
+
+<p>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+  <a href="AGENTS.md"><img src="https://img.shields.io/badge/AI--Friendly-Yes-success.svg" alt="AI-Friendly"></a>
+  <a href="#-领域分类-domains"><img src="https://img.shields.io/badge/Polyglot-Go%20%7C%20Python%20%7C%20TS%20%7C%20Rust-orange.svg" alt="Polyglot"></a>
+  <a href="catalog.json"><img src="https://img.shields.io/badge/Catalog-Self--Indexed-blueviolet.svg" alt="Catalog"></a>
+</p>
+
+<p>
+  <a href="README.md"><b>简体中文</b></a> | <a href="README.en.md">English</a>
+</p>
+
+</div>
+
+---
 
 `code-primitives` 是一个面向多语言工程实践的**代码原语（Primitives）与核心模式资产库**。
 
 这里沉淀的不是平庸的业务代码片段，而是在复杂系统、反爬逆向、流式解析、密码学计算、高并发控制等场景中提炼出的**最小可用、经过完备测试、零业务耦合**的高价值实现。
 
 本仓库采用原生 AI 友好设计（AI-Friendly），支持 AI Agent 自主检索、借用、维护与验证。
+
+---
+
+## 🤖 与 AI Agent 协作范例 (Agent Prompts)
+
+在日常多项目开发中，你可以直接向 Codex、Claude Code、Cursor 等 AI 助手发送以下 Prompt，驱动其自动查询或沉淀资产：
+
+### 1. 🔍 调用与检索资产 (Retrieve)
+> **Prompt 示例：**
+> 
+> “去查一下我的 GitHub 仓库 `b1mango/code-primitives` 里的 `catalog.json`，看有没有处理流式工具调用的模块，参考它的状态机设计帮我实现一个 Python 版本。”
+
+- **Agent 动作链**：
+  1. 通过 `curl` 或 GitHub API 单次拉取 `catalog.json` / `llms.txt`（消耗极少 Token）；
+  2. 根据 `keywords` 与 `summary` 精准定位对应原语路径；
+  3. 读取其实现代码与配套测试，吸收设计模式并在当前项目中完成集成复现。
+
+---
+
+### 2. 📥 纯化与录入资产 (Ingest)
+> **Prompt 示例：**
+> 
+> “把当前项目里的这段代码/这个仓库沉淀到我的 GitHub `b1mango/code-primitives` 中，严格遵循其根目录 `AGENTS.md` 的规范完成解耦、单测编写、注册表更新并 Push。”
+
+- **Agent 动作链**：
+  1. **准入审查**：对照准入标准过滤掉平庸业务代码；
+  2. **纯化解耦**：剥离专有依赖、私有变量与环境强绑定；
+  3. **单测验证**：编写测试用例并执行 `test_cmd`，确保 100% 通过；
+  4. **全量登记**：生成带 Frontmatter 的说明文档，同步更新根目录 `catalog.json` 与 `llms.txt`。
 
 ---
 
