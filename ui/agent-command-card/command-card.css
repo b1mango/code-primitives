@@ -1,0 +1,252 @@
+/**
+ * Agent Command Card Component Styles
+ * Inspired by Mirasim terminal execution cards.
+ * Designed for low-latency, GPU-accelerated execution animations & accessibility.
+ */
+
+:root {
+  --acc-bg: #131418;
+  --acc-card-bg: rgba(255, 255, 255, 0.025);
+  --acc-card-bg-hover: rgba(255, 255, 255, 0.05);
+  --acc-card-bg-active: rgba(255, 255, 255, 0.04);
+  
+  --acc-border-subtle: #272a33;
+  --acc-border-default: #353844;
+  --acc-border-active: #4a4e5e;
+  
+  --acc-fg-primary: #f3f4f6;
+  --acc-fg-secondary: #9da1b0;
+  --acc-fg-muted: #5e6270;
+  
+  --acc-status-running: #34d399;
+  --acc-status-running-glow: rgba(52, 211, 153, 0.25);
+  --acc-status-error: #f87171;
+  --acc-status-warn: #fbbf24;
+  
+  --acc-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+  --acc-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* === Host Container === */
+.agent-command-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--acc-border-subtle);
+  background: var(--acc-card-bg);
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: var(--acc-font-sans);
+  color: var(--acc-fg-primary);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus Visible for Accessibility */
+.agent-command-card:focus-within {
+  outline: 2px solid var(--acc-border-active);
+  outline-offset: 1px;
+}
+
+/* === Card Header === */
+.acc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  min-height: 36px;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.acc-header:hover {
+  background-color: var(--acc-card-bg-hover);
+}
+
+/* === Icons & Status Indicators === */
+.acc-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  stroke: var(--acc-fg-muted);
+  transition: stroke 0.2s ease, transform 0.2s ease;
+}
+
+.acc-cmd {
+  flex: 1;
+  font-family: var(--acc-font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.acc-cursor {
+  display: none;
+  width: 6px;
+  height: 13px;
+  background: var(--acc-status-running);
+  vertical-align: middle;
+}
+
+.acc-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--acc-fg-secondary);
+}
+
+.acc-chevron {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  stroke: var(--acc-fg-muted);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s ease;
+}
+
+.agent-command-card[data-open="true"] .acc-chevron {
+  transform: rotate(90deg);
+  stroke: var(--acc-fg-primary);
+}
+
+/* === Output Body === */
+.acc-body {
+  display: none;
+  padding: 10px 14px 12px;
+  font-family: var(--acc-font-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--acc-fg-secondary);
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid var(--acc-border-subtle);
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.agent-command-card[data-open="true"] .acc-body {
+  display: block;
+}
+
+/* === Status Modifiers === */
+.agent-command-card[data-status="running"] {
+  border-color: var(--acc-border-active);
+  background-color: var(--acc-card-bg-active);
+}
+
+.agent-command-card[data-status="running"] .acc-icon {
+  stroke: var(--acc-status-running);
+}
+
+.agent-command-card[data-status="error"] {
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.agent-command-card[data-status="error"] .acc-icon {
+  stroke: var(--acc-status-error);
+}
+
+/* === Effect 1: Native Mirasim Spinner === */
+.acc-spinner-ring {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--acc-status-running);
+  animation: acc-spin 0.85s linear infinite;
+}
+
+@keyframes acc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === Effect 2: Pulse Glow (呼吸微光) === */
+.agent-command-card.effect-pulse[data-status="running"] {
+  animation: acc-pulse-glow 2.2s ease-in-out infinite;
+}
+
+@keyframes acc-pulse-glow {
+  0%, 100% {
+    border-color: rgba(52, 211, 153, 0.3);
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+  }
+  50% {
+    border-color: rgba(52, 211, 153, 0.85);
+    box-shadow: 0 0 10px 1.5px var(--acc-status-running-glow);
+  }
+}
+
+/* === Effect 3: Stream Shimmer (边缘扫光/跑马灯) === */
+.agent-command-card.effect-shimmer[data-status="running"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--acc-status-running) 50%, transparent 100%);
+  animation: acc-shimmer-slide 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes acc-shimmer-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* === Effect 4: Border Beam (角部流动光束) === */
+.agent-command-card.effect-beam[data-status="running"] {
+  border-color: transparent;
+}
+
+.agent-command-card.effect-beam[data-status="running"]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 7px;
+  padding: 1px;
+  background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--acc-status-running) 60deg, transparent 120deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: acc-spin 2.6s linear infinite;
+  pointer-events: none;
+}
+
+/* === Effect 5: Terminal Cursor Blink === */
+.agent-command-card.effect-cursor[data-status="running"] .acc-cursor {
+  display: inline-block;
+  animation: acc-cursor-blink 0.9s steps(1) infinite;
+}
+
+@keyframes acc-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* === Accessibility: Reduced Motion Support === */
+@media (prefers-reduced-motion: reduce) {
+  .acc-spinner-ring,
+  .agent-command-card.effect-pulse[data-status="running"],
+  .agent-command-card.effect-shimmer[data-status="running"]::after,
+  .agent-command-card.effect-beam[data-status="running"]::before,
+  .agent-command-card.effect-cursor[data-status="running"] .acc-cursor {
+    animation: none !important;
+  }
+  .agent-command-card[data-status="running"] {
+    border-color: var(--acc-status-running);
+  }
+}

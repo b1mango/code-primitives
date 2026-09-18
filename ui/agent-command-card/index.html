@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Command Card Component Demo</title>
+  <link rel="stylesheet" href="command-card.css" />
+  <style>
+    body {
+      background-color: #0e1013;
+      color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    p.desc {
+      color: #9da1b0;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .panel {
+      background: #17191e;
+      border: 1px solid #272a33;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .panel-title {
+      font-size: 12.5px;
+      color: #9da1b0;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+    }
+    .tag {
+      font-family: monospace;
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    button {
+      background: #272a33;
+      color: #f3f4f6;
+      border: 1px solid #353844;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover {
+      background: #353844;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div>
+      <h1>Agent Command Card 原语演示</h1>
+      <p class="desc">复刻 Mirasim 终端执行框动效：支持 Native Spinner、呼吸光、流光跑马灯、光束描边与光标闪烁。</p>
+    </div>
+
+    <div class="grid">
+      <!-- 动态交互卡片 -->
+      <div class="panel">
+        <div class="panel-title">
+          <span>交互测试卡片 (Web Component)</span>
+          <span class="tag" id="live-tag">RUNNING · PULSE</span>
+        </div>
+        
+        <agent-command-card id="live-card" command="python3 eval_metrics.py --dataset=gsm8k" status="running" effect="pulse" duration="2.4s">
+[1/4] Loading evaluation dataset... 1000 items
+[2/4] Initializing model inference worker pool... (16 slots)
+[3/4] Running multi-turn chain-of-thought evaluations...
+[4/4] Completed! Accuracy: 96.8%, Average latency: 420ms
+        </agent-command-card>
+
+        <div class="actions">
+          <button onclick="setLiveStatus('running')">设为运行中</button>
+          <button onclick="setLiveStatus('success')">设为成功</button>
+          <button onclick="setLiveStatus('error')">设为失败</button>
+          <button onclick="toggleEffect()">切换动效模式</button>
+          <button onclick="document.getElementById('live-card').toggle()">展开/收起</button>
+        </div>
+      </div>
+
+      <!-- 4 种动效对比 -->
+      <div class="panel">
+        <div class="panel-title"><span>1. 原生微型旋转环 (Native Spinner)</span><span class="tag">effect="native"</span></div>
+        <agent-command-card command="git checkout -b feature/agent-ui" status="running" effect="native">
+Switched to a new branch 'feature/agent-ui'
+        </agent-command-card>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>2. 边缘流光跑马灯 (Stream Shimmer)</span><span class="tag">effect="shimmer"</span></div>
+        <agent-command-card command="cargo build --release --locked" status="running" effect="shimmer">
+Compiling syn v2.0.48
+Compiling agent-runtime v0.3.0 (/workspace/core)
+Finished release [optimized] target(s) in 14.2s
+        </agent-command-card>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>3. 渐变光束描边 (Corner Border Beam)</span><span class="tag">effect="beam"</span></div>
+        <agent-command-card command="docker compose up -d postgres redis" status="running" effect="beam">
+[+] Running 2/2
+ ✔ Container redis     Started
+ ✔ Container postgres  Started
+        </agent-command-card>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>4. 终端光标跳动 (Terminal Cursor Blink)</span><span class="tag">effect="cursor"</span></div>
+        <agent-command-card command="tail -f /var/log/agent-executor.log" status="running" effect="cursor">
+2026-09-19 00:01:12 INFO worker-1 received task_id=891
+2026-09-19 00:01:13 INFO step complete
+        </agent-command-card>
+      </div>
+    </div>
+  </div>
+
+  <script src="command-card.js"></script>
+  <script>
+    const card = document.getElementById('live-card');
+    const tag = document.getElementById('live-tag');
+    const effects = ['pulse', 'shimmer', 'beam', 'cursor', 'native'];
+    let fxIdx = 0;
+
+    function setLiveStatus(st) {
+      card.setAttribute('status', st);
+      updateTag();
+    }
+
+    function toggleEffect() {
+      fxIdx = (fxIdx + 1) % effects.length;
+      card.setAttribute('effect', effects[fxIdx]);
+      updateTag();
+    }
+
+    function updateTag() {
+      const st = card.getAttribute('status') || 'idle';
+      const fx = card.getAttribute('effect') || 'native';
+      tag.textContent = `${st.toUpperCase()} · ${fx.toUpperCase()}`;
+    }
+  </script>
+</body>
+</html>

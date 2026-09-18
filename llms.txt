@@ -9,3 +9,6 @@
 
 ## Network
 - [uTLS Safari Transport](network/utls-safari-transport/README.md): Safari ClientHello 握手指纹伪装与 ALPN HTTP/1.1 动态重写降级，用于绕过 WAF/CDN 指纹风控。
+
+## UI
+- [Agent Command Card](ui/agent-command-card/README.md): Mirasim 风格 Agent 终端执行卡片与 5 种 GPU 加速动效（呼吸光/扫光/光束/光标/微旋环），零依赖 Web Component。

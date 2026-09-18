@@ -89,6 +89,7 @@
 - [`streaming/`](streaming/)：流式传输、SSE 解析、流式标签过滤、状态机
 - [`network/`](network/)：网络传输、TLS 指纹模拟、反爬与协议适配
 - [`concurrency/`](concurrency/)：高并发控制、工作池、队列与槽位调度
+- [`ui/`](ui/)：前端交互、Agent 执行卡片、微动效、Web Component
 
 ---
 

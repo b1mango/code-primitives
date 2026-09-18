@@ -28,5 +28,15 @@
     "path": "network/utls-safari-transport",
     "summary": "基于 uTLS 模拟 Safari ClientHello，动态重写 ALPN 降级至 HTTP/1.1 规避复杂 H2 行为指纹",
     "source": "CJackHwang/ds2api"
+  },
+  {
+    "id": "ui-agent-command-card",
+    "domain": "ui",
+    "title": "Agent 终端执行框与动态状态机卡片",
+    "language": "javascript",
+    "tags": ["ui", "agent-card", "animation", "web-component", "mirasim", "css"],
+    "path": "ui/agent-command-card",
+    "summary": "复刻并优化 Mirasim 风格的 Agent 命令卡片动效（微光/扫光/光束/光标），零依赖 Web Component，带无障碍减弱动态支持",
+    "source": "Mirasim Web UI (逆向与优化)"
   }
 ]

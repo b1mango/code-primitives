@@ -89,6 +89,7 @@ To be accepted into this library, a pattern must satisfy at least 3 of the follo
 - [`streaming/`](streaming/): Streaming protocols, SSE parsing, tool call sieves, state machines
 - [`network/`](network/): Network transport, TLS fingerprint emulation, anti-bot bypass
 - [`concurrency/`](concurrency/): Concurrency primitives, worker pools, slot scheduling
+- [`ui/`](ui/): Frontend interaction, Agent execution cards, micro-animations, Web Components
 
 ---
 
