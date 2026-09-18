@@ -1,0 +1,11 @@
+# Code Primitives
+> Curated, self-contained, verified engineering primitives for developers and AI agents.
+
+## Crypto
+- [Keccak Partial PoW](crypto/keccak-partial-pow/README.md): 跳过 round 0 的零堆内存分配 Keccak-f[1600] 高性能求解器，带前缀状态预吸收与栈寄存器比对。
+
+## Streaming
+- [SSE Tool Sieve](streaming/sse-tool-sieve/README.md): 流式大模型输出工具调用防泄漏状态机，带 Markdown 代码块感知与无损回退。
+
+## Network
+- [uTLS Safari Transport](network/utls-safari-transport/README.md): Safari ClientHello 握手指纹伪装与 ALPN HTTP/1.1 动态重写降级，用于绕过 WAF/CDN 指纹风控。
