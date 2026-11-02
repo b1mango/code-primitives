@@ -12,3 +12,4 @@
 
 ## UI
 - [Agent Command Card](ui/agent-command-card/README.md): 通用 Agent 终端执行卡片与 5 种 GPU 加速动效（微旋环/呼吸光/扫光/光束/光标），零依赖 Web Component。
+- [Retro README Kit](ui/retro-readme-kit/README.md): 复古硬件面板风 README 生成器，一份 JSON 产出日夜双套 SVG（封面/章节标题/键帽/配色徽章），像素字体转 path，零依赖。

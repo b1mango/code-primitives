@@ -1,0 +1,60 @@
+{
+  "name": "Retro README Kit",
+  "repo": "b1mango/code-primitives",
+  "theme": "beige",
+  "asset_dir": "assets/readme",
+  "animate": true,
+  "hero": {
+    "kicker": "README KIT // RETRO PANEL",
+    "name_zh": "复古面板",
+    "name_tag": "README KIT",
+    "title": "RETRO KIT",
+    "tagline": "让你的 README 在千篇一律中被一眼认出",
+    "subline": "Day / night SVG panels, pixel-font labels, zero dependencies.",
+    "chips": ["PYTHON 3.8+", "ZERO DEPS", "MIT"],
+    "window_title": "FLOPPY.BMP",
+    "status": "READY",
+    "sprite": {
+      "palette": {"o": "$line", "b": "$accent", "s": "#c9ccd1", "d": "#3a3833", "l": "#f6f1e3"},
+      "rows": [
+        "oooooooooooooo..",
+        "obbbssssssssbbo.",
+        "obbbsssddsssbbbo",
+        "obbbsssddsssbbbo",
+        "obbbsssddsssbbbo",
+        "obbbssssssssbbbo",
+        "obbbbbbbbbbbbbbo",
+        "obbbbbbbbbbbbbbo",
+        "obbllllllllllbbo",
+        "obbllllllllllbbo",
+        "obbloooooooolbbo",
+        "obbllllllllllbbo",
+        "obbloooooolllbbo",
+        "obbllllllllllbbo",
+        "obbllllllllllbbo",
+        "oooooooooooooooo"
+      ]
+    }
+  },
+  "languages": [
+    {"id": "zh", "label": "中文", "href": "#", "active": true},
+    {"id": "en", "label": "English", "href": "#"}
+  ],
+  "keys": [
+    {"id": "get", "label": "快速开始", "tag": "GET", "href": "#快速开始", "accent": true},
+    {"id": "docs", "label": "文档", "tag": "DOCS", "href": "../README.md"},
+    {"id": "themes", "label": "主题", "tag": "THEME", "href": "../README.md#主题"}
+  ],
+  "badges": [
+    {"label": "Python", "message": "3.8+"},
+    {"label": "Deps", "message": "zero"},
+    {"github": "license", "label": "License"},
+    {"github": "stars", "label": "Stars"}
+  ],
+  "sections": [
+    {"id": "intro", "en": "INTRO", "zh": "简介"},
+    {"id": "start", "en": "QUICK START", "zh": "快速开始"},
+    {"id": "idea", "en": "IDEA", "zh": "设计理念"},
+    {"id": "notice", "en": "LICENSE", "zh": "许可证"}
+  ]
+}

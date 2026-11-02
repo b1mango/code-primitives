@@ -63,5 +63,23 @@
     "path": "ui/agent-command-card",
     "summary": "面向 Agent 终端命令执行的高性能通用微动效卡片（微旋环/呼吸光/扫光/光束/光标），零依赖 Web Component，带无障碍支持",
     "source": "https://github.com/b1mango/code-primitives/tree/main/ui/agent-command-card"
+  },
+  {
+    "id": "ui-retro-readme-kit",
+    "domain": "ui",
+    "title": "复古硬件面板风 README 生成器（日夜双套 SVG + 像素字体）",
+    "language": "python",
+    "tags": [
+      "ui",
+      "readme",
+      "svg",
+      "pixel-font",
+      "dark-mode",
+      "github",
+      "branding"
+    ],
+    "path": "ui/retro-readme-kit",
+    "summary": "一份 JSON 生成封面/章节标题/键帽链接/配色徽章的日夜双套 SVG，像素字体转 path 零字体依赖，<picture> 跟随 GitHub 主题切换，模板占位符直出 README",
+    "source": "设计语言参考 https://github.com/Mai-with-u/MaiBot ，实现原创"
   }
 ]
