@@ -65,12 +65,11 @@
     "source": "https://github.com/b1mango/code-primitives/tree/main/ui/agent-command-card"
   },
   {
-    "id": "ui-retro-readme-kit",
-    "domain": "ui",
+    "id": "readme-retro-panel",
+    "domain": "readme",
     "title": "复古硬件面板风 README 生成器（日夜双套 SVG + 像素字体）",
     "language": "python",
     "tags": [
-      "ui",
       "readme",
       "svg",
       "pixel-font",
@@ -78,7 +77,7 @@
       "github",
       "branding"
     ],
-    "path": "ui/retro-readme-kit",
+    "path": "readme/retro-panel",
     "summary": "一份 JSON 生成封面/章节标题/键帽链接/配色徽章的日夜双套 SVG，像素字体转 path 零字体依赖，<picture> 跟随 GitHub 主题切换，模板占位符直出 README",
     "source": "设计语言参考 https://github.com/Mai-with-u/MaiBot ，实现原创"
   }

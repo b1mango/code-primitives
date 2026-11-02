@@ -1,9 +1,9 @@
 ---
-id: ui-retro-readme-kit
-domain: ui
+id: readme-retro-panel
+domain: readme
 title: 复古硬件面板风 README 生成器（日夜双套 SVG + 像素字体）
 language: python
-tags: [ui, readme, svg, pixel-font, dark-mode, github, branding]
+tags: [readme, svg, pixel-font, dark-mode, github, branding]
 source: "设计语言参考 https://github.com/Mai-with-u/MaiBot （README 视觉），实现与像素字体为原创"
 test_cmd: "python3 -m unittest -v test_readme_kit"
 dependencies: []
