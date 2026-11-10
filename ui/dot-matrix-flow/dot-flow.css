@@ -1,0 +1,52 @@
+/* Dot Matrix Flow — theme tokens + host helpers. Optional: the component works without this file. */
+
+:root {
+  --dot-flow: #7b4fd8; /* dot colour */
+  --dot-flow-soft: #ebe2fb; /* wash behind the filled part */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dot-flow: #a98bff;
+    --dot-flow-soft: #261d3d;
+  }
+}
+
+/* Explicit theme switches win over the media query */
+:root[data-theme='light'],
+.light {
+  --dot-flow: #7b4fd8;
+  --dot-flow-soft: #ebe2fb;
+}
+:root[data-theme='dark'],
+.dark {
+  --dot-flow: #a98bff;
+  --dot-flow-soft: #261d3d;
+}
+
+/* Any box that should carry a field behind its content */
+.dot-flow-host {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Imperative usage: a bare <canvas class="dot-flow-canvas"> inside a .dot-flow-host */
+.dot-flow-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Whole table row as the field: put <dot-flow host="tr"> in the first cell */
+.dot-flow-table {
+  isolation: isolate;
+}
+.dot-flow-table tr.is-flowing > td:first-child {
+  position: relative;
+}
+.dot-flow-table tr.is-flowing > td,
+.dot-flow-table tr.is-flowing:hover > td {
+  background: transparent;
+}

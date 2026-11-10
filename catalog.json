@@ -65,6 +65,26 @@
     "source": "https://github.com/b1mango/code-primitives/tree/main/ui/agent-command-card"
   },
   {
+    "id": "ui-dot-matrix-flow",
+    "domain": "ui",
+    "title": "点阵粒子流（ultracode 紫色抖动点阵进度/状态底纹）",
+    "language": "javascript",
+    "tags": [
+      "ui",
+      "canvas",
+      "particles",
+      "dot-matrix",
+      "progress",
+      "animation",
+      "web-component",
+      "reduced-motion",
+      "ultracode"
+    ],
+    "path": "ui/dot-matrix-flow",
+    "summary": "复刻 Claude Code ultracode 档位的紫色动态粒子：Canvas 点阵逐点独立节拍抖动、向前沿聚密增亮，支持 progress/sweep/pulse/idle 四态，可铺满进度条、表格整行或按钮胶囊；零依赖 Web Component + 命令式控制器，30fps 节流、离屏暂停、CSS 变量自动跟随主题、减少动态时静帧",
+    "source": "Claude Code ultracode 视觉复刻；实现提炼自 觅音 SongSeek web/src/RowFlow.tsx"
+  },
+  {
     "id": "readme-retro-panel",
     "domain": "readme",
     "title": "复古硬件面板风 README 生成器（日夜双套 SVG + 像素字体）",

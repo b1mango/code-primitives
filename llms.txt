@@ -12,6 +12,7 @@
 
 ## UI
 - [Agent Command Card](ui/agent-command-card/README.md): 通用 Agent 终端执行卡片与 5 种 GPU 加速动效（微旋环/呼吸光/扫光/光束/光标），零依赖 Web Component。
+- [Dot Matrix Flow](ui/dot-matrix-flow/README.md): ultracode 风紫色抖动点阵粒子流，Canvas 绘制进度/未知进度/收尾/空闲四态底纹，可铺满表格整行，零依赖 Web Component，30fps 节流 + 离屏暂停 + 主题自适应。
 
 ## README
 - [README 模板索引](readme/README.md): 各风格 README 模板的总览与选用说明。
