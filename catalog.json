@@ -78,10 +78,11 @@
       "animation",
       "web-component",
       "reduced-motion",
-      "ultracode"
+      "ultracode",
+      "theming"
     ],
     "path": "ui/dot-matrix-flow",
-    "summary": "复刻 Claude Code ultracode 档位的紫色动态粒子：Canvas 点阵逐点独立节拍抖动、向前沿聚密增亮，支持 progress/sweep/pulse/idle 四态，可铺满进度条、表格整行或按钮胶囊；零依赖 Web Component + 命令式控制器，30fps 节流、离屏暂停、CSS 变量自动跟随主题、减少动态时静帧",
+    "summary": "复刻 Claude Code ultracode 档位的紫色动态粒子：Canvas 点阵逐点独立节拍抖动、向前沿聚密增亮，支持 progress/sweep/pulse/idle 四态，可铺满进度条、表格整行或按钮胶囊；零依赖 Web Component + 命令式控制器，30fps 节流、离屏暂停、内置紫/Claude 橙/亮橙暗紫三套配色并自动跟随亮暗主题、减少动态时静帧",
     "source": "Claude Code ultracode 视觉复刻；实现提炼自 觅音 SongSeek web/src/RowFlow.tsx"
   },
   {

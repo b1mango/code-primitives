@@ -23,9 +23,41 @@ const DOT_FLOW_DEFAULTS = Object.freeze({
   fps: 30, // the dither reads better (and costs less) at ~30 fps
   ease: 4, // progress easing rate (1/s)
   wash: true, // soft gradient behind the filled part
-  color: '#7b4fd8', // fallbacks; CSS vars --dot-flow / --dot-flow-soft win when set
-  soft: '#ebe2fb',
+  palette: 'purple', // fallback colours when no CSS var is set; see DOT_FLOW_PALETTES
 });
+
+/**
+ * Built-in colour sets, per colour scheme. CSS vars --dot-flow / --dot-flow-soft win over these;
+ * they only kick in when dot-flow.css isn't loaded.
+ *   purple  the ultracode look (default)
+ *   orange  Claude orange
+ *   claude  orange in light mode, purple in dark mode
+ */
+const DOT_FLOW_PALETTES = Object.freeze({
+  purple: { light: { color: '#7b4fd8', soft: '#ebe2fb' }, dark: { color: '#a98bff', soft: '#261d3d' } },
+  orange: { light: { color: '#bd5230', soft: '#f9e1d4' }, dark: { color: '#ec9672', soft: '#3a2219' } },
+  claude: { light: { color: '#bd5230', soft: '#f9e1d4' }, dark: { color: '#a98bff', soft: '#261d3d' } },
+});
+
+/** 'dark' | 'light': explicit data-theme / .dark / .light on <html> or <body>, else the OS setting. */
+function colorScheme() {
+  if (typeof document !== 'undefined') {
+    for (const el of [document.documentElement, document.body]) {
+      if (!el) continue;
+      const theme = el.getAttribute && el.getAttribute('data-theme');
+      if (theme === 'dark' || theme === 'light') return theme;
+      if (el.classList && el.classList.contains('dark')) return 'dark';
+      if (el.classList && el.classList.contains('light')) return 'light';
+    }
+  }
+  return typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+/** Fallback colours for a palette name in the current scheme. */
+function paletteColors(name, scheme) {
+  const set = DOT_FLOW_PALETTES[name] || DOT_FLOW_PALETTES.purple;
+  return set[scheme || colorScheme()];
+}
 
 const DOT_FLOW_STATES = ['idle', 'progress', 'sweep', 'pulse'];
 
@@ -149,7 +181,7 @@ function prefersReducedMotion() {
  * Drive a canvas: sizing (DPR aware), theming via CSS vars, easing, a capped-fps loop that pauses
  * off-screen, and a static frame under prefers-reduced-motion.
  *
- * options: DOT_FLOW_DEFAULTS + { host, state, progress, reducedMotion, raf, caf }
+ * options: DOT_FLOW_DEFAULTS + { host, state, progress, palette, color, soft, reducedMotion, raf, caf }
  *   host      element whose box the field covers (default: canvas.parentElement)
  */
 function createDotFlow(canvas, options) {
@@ -166,8 +198,10 @@ function createDotFlow(canvas, options) {
   let t = 0;
   let w = 0;
   let h = 0;
-  let color = opts.color;
-  let soft = opts.soft;
+  // an explicitly chosen palette beats the page-wide --dot-flow default
+  let named = !!(options && options.palette);
+  let color = opts.color || paletteColors(opts.palette, 'light').color;
+  let soft = opts.soft || paletteColors(opts.palette, 'light').soft;
   let softClear = transparentOf(soft);
   let visible = true;
   let frame = 0;
@@ -185,8 +219,11 @@ function createDotFlow(canvas, options) {
   const recolor = () => {
     const css = typeof getComputedStyle === 'function' ? getComputedStyle(canvas) : null;
     const read = (name) => (css && css.getPropertyValue(name).trim()) || '';
-    color = (options && options.color) || read('--dot-flow') || DOT_FLOW_DEFAULTS.color;
-    soft = (options && options.soft) || read('--dot-flow-soft') || DOT_FLOW_DEFAULTS.soft;
+    // colour order: explicit option → CSS var (per palette when one was named) → built-in table
+    const fallback = paletteColors(opts.palette);
+    const v = named ? `--dot-flow-${opts.palette}` : '--dot-flow';
+    color = opts.color || read(v) || fallback.color;
+    soft = opts.soft || read(`${v}-soft`) || fallback.soft;
     ctx.fillStyle = soft;
     softClear = transparentOf(ctx.fillStyle); // canvas normalises any CSS colour
     if (still) paint();
@@ -230,8 +267,13 @@ function createDotFlow(canvas, options) {
 
   const set = (next) => {
     const n = next || {};
+    if (n.palette) {
+      opts.palette = n.palette;
+      named = true;
+      recolor();
+    }
     if ('progress' in n) progress = n.progress;
-    const wanted = n.state || (('progress' in n) ? 'progress' : state);
+    const wanted = n.state || ('progress' in n ? 'progress' : state);
     const prev = state;
     state = resolveState(wanted, progress);
     if (state === 'sweep' && prev !== 'sweep') t = 0; // comet starts from the left
@@ -264,7 +306,7 @@ function createDotFlow(canvas, options) {
   if (typeof MutationObserver === 'function' && typeof document !== 'undefined') {
     // class / data-theme toggles on <html> or <body> usually mean a theme switch
     const mo = new MutationObserver(recolor);
-    const attributeFilter = ['class', 'data-theme', 'style'];
+    const attributeFilter = ['class', 'data-theme', 'data-dot-flow', 'style'];
     mo.observe(document.documentElement, { attributes: true, attributeFilter });
     if (document.body) mo.observe(document.body, { attributes: true, attributeFilter });
     cleanups.push(() => mo.disconnect());
@@ -283,6 +325,7 @@ function createDotFlow(canvas, options) {
     paint,
     get state() { return state; },
     get shown() { return shown; },
+    get colors() { return { color, soft, palette: opts.palette }; },
     destroy() {
       destroyed = true;
       caf(frame);
@@ -296,12 +339,12 @@ function createDotFlow(canvas, options) {
  * <dot-flow state="progress" progress="0.4"></dot-flow>
  * Fills its containing block (absolute, inset 0, behind content). Give the parent
  * `position: relative; isolation: isolate` (or the .dot-flow-host class).
- * Attributes: state, progress, pitch, size, alpha, fps, color, soft, host (closest() selector,
+ * Attributes: state, progress, palette (purple | orange | claude), pitch, size, alpha, fps, color, soft, host (closest() selector,
  * e.g. host="tr" when mounted inside a table cell to cover the whole row).
  */
 const DotFlowElement = typeof HTMLElement === 'undefined' ? null : class DotFlowElement extends HTMLElement {
   static get observedAttributes() {
-    return ['state', 'progress'];
+    return ['state', 'progress', 'palette'];
   }
 
   connectedCallback() {
@@ -315,7 +358,7 @@ const DotFlowElement = typeof HTMLElement === 'undefined' ? null : class DotFlow
     const num = (name) => (this.hasAttribute(name) ? Number(this.getAttribute(name)) : undefined);
     const opts = { host: (sel && this.closest(sel)) || this, state: this.getAttribute('state') || undefined, progress: this._progress() };
     for (const k of ['pitch', 'size', 'alpha', 'fps']) if (num(k) != null) opts[k] = num(k);
-    for (const k of ['color', 'soft']) if (this.getAttribute(k)) opts[k] = this.getAttribute(k);
+    for (const k of ['color', 'soft', 'palette']) if (this.getAttribute(k)) opts[k] = this.getAttribute(k);
     this._flow = createDotFlow(this.shadowRoot.querySelector('canvas'), opts);
   }
 
@@ -324,8 +367,13 @@ const DotFlowElement = typeof HTMLElement === 'undefined' ? null : class DotFlow
     this._flow = null;
   }
 
-  attributeChangedCallback() {
-    if (this._flow) this._flow.set({ state: this.getAttribute('state') || undefined, progress: this._progress() });
+  attributeChangedCallback(name) {
+    if (!this._flow) return;
+    if (name === 'palette') {
+      this._flow.set({ palette: this.getAttribute('palette') || 'purple' });
+      return;
+    }
+    this._flow.set({ state: this.getAttribute('state') || undefined, progress: this._progress() });
   }
 
   _progress() {
@@ -345,7 +393,7 @@ if (DotFlowElement && typeof customElements !== 'undefined' && !customElements.g
 
 // Export for CommonJS / bundlers / plain <script> tag
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { DOT_FLOW_DEFAULTS, DOT_FLOW_STATES, hash, flowGeometry, columnField, transparentOf, paintFrame, createDotFlow, DotFlowElement };
+  module.exports = { DOT_FLOW_DEFAULTS, DOT_FLOW_STATES, DOT_FLOW_PALETTES, colorScheme, paletteColors, hash, flowGeometry, columnField, transparentOf, paintFrame, createDotFlow, DotFlowElement };
 } else if (typeof window !== 'undefined') {
-  window.DotFlow = { DOT_FLOW_DEFAULTS, DOT_FLOW_STATES, hash, flowGeometry, columnField, transparentOf, paintFrame, createDotFlow, DotFlowElement };
+  window.DotFlow = { DOT_FLOW_DEFAULTS, DOT_FLOW_STATES, DOT_FLOW_PALETTES, colorScheme, paletteColors, hash, flowGeometry, columnField, transparentOf, paintFrame, createDotFlow, DotFlowElement };
 }

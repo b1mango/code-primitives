@@ -229,3 +229,40 @@ test('benchmark: one 720×40 frame', () => {
   console.log(`  paintFrame 720x40: ${ms.toFixed(3)} ms/frame (mock ctx)`);
   assert.ok(ms < 8, `too slow: ${ms} ms/frame`);
 });
+
+test('palettes: purple default, orange, claude = orange light / purple dark', () => {
+  const { DOT_FLOW_PALETTES, paletteColors } = require('./dot-flow.js');
+  assert.deepStrictEqual(paletteColors('purple', 'light'), DOT_FLOW_PALETTES.purple.light);
+  assert.deepStrictEqual(paletteColors('nope', 'dark'), DOT_FLOW_PALETTES.purple.dark, 'unknown → purple');
+  assert.deepStrictEqual(paletteColors('claude', 'light'), DOT_FLOW_PALETTES.orange.light);
+  assert.deepStrictEqual(paletteColors('claude', 'dark'), DOT_FLOW_PALETTES.purple.dark);
+  for (const set of Object.values(DOT_FLOW_PALETTES)) {
+    for (const c of [set.light.color, set.light.soft, set.dark.color, set.dark.soft]) assert.match(c, /^#[0-9a-f]{6}$/);
+  }
+});
+
+test('controller colours: option > named-palette CSS var > --dot-flow > built-in table', () => {
+  const vars = { '--dot-flow': '#111111', '--dot-flow-soft': '#222222', '--dot-flow-orange': '#333333', '--dot-flow-orange-soft': '#444444' };
+  const saved = global.getComputedStyle;
+  try {
+    // no CSS: built-in table
+    let flow = createDotFlow(mockCanvas().canvas, { reducedMotion: true, palette: 'orange' });
+    assert.strictEqual(flow.colors.color, '#bd5230');
+    flow.destroy();
+
+    global.getComputedStyle = () => ({ getPropertyValue: (k) => vars[k] || '' });
+    flow = createDotFlow(mockCanvas().canvas, { reducedMotion: true });
+    assert.strictEqual(flow.colors.color, '#111111', 'unnamed follows the page-wide var');
+    flow.set({ palette: 'orange' });
+    assert.deepStrictEqual([flow.colors.color, flow.colors.soft], ['#333333', '#444444'], 'named palette reads its own var');
+    flow.set({ palette: 'claude' });
+    assert.strictEqual(flow.colors.color, '#bd5230', 'missing var → table (light)');
+    flow.destroy();
+
+    flow = createDotFlow(mockCanvas().canvas, { reducedMotion: true, palette: 'orange', color: '#abcdef' });
+    assert.strictEqual(flow.colors.color, '#abcdef', 'explicit colour wins');
+    flow.destroy();
+  } finally {
+    if (saved === undefined) delete global.getComputedStyle; else global.getComputedStyle = saved;
+  }
+});

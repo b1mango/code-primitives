@@ -1,27 +1,60 @@
-/* Dot Matrix Flow — theme tokens + host helpers. Optional: the component works without this file. */
+/* Dot Matrix Flow — theme tokens + host helpers. Optional: the component falls back to the
+   same colours (DOT_FLOW_PALETTES in dot-flow.js) without this file. */
 
+/* Per-palette tokens. Override any of these to retune a palette. */
 :root {
-  --dot-flow: #7b4fd8; /* dot colour */
-  --dot-flow-soft: #ebe2fb; /* wash behind the filled part */
+  --dot-flow-purple: #7b4fd8;
+  --dot-flow-purple-soft: #ebe2fb;
+  --dot-flow-orange: #bd5230; /* Claude terracotta, deepened to purple's luminance so 2px dots hold on light paper */
+  --dot-flow-orange-soft: #f9e1d4;
+  --dot-flow-claude: var(--dot-flow-orange); /* claude = orange in light, purple in dark */
+  --dot-flow-claude-soft: var(--dot-flow-orange-soft);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --dot-flow: #a98bff;
-    --dot-flow-soft: #261d3d;
+    --dot-flow-purple: #a98bff;
+    --dot-flow-purple-soft: #261d3d;
+    --dot-flow-orange: #ec9672;
+    --dot-flow-orange-soft: #3a2219;
+    --dot-flow-claude: var(--dot-flow-purple);
+    --dot-flow-claude-soft: var(--dot-flow-purple-soft);
   }
 }
 
 /* Explicit theme switches win over the media query */
 :root[data-theme='light'],
-.light {
-  --dot-flow: #7b4fd8;
-  --dot-flow-soft: #ebe2fb;
+:root.light {
+  --dot-flow-purple: #7b4fd8;
+  --dot-flow-purple-soft: #ebe2fb;
+  --dot-flow-orange: #bd5230;
+  --dot-flow-orange-soft: #f9e1d4;
+  --dot-flow-claude: var(--dot-flow-orange);
+  --dot-flow-claude-soft: var(--dot-flow-orange-soft);
 }
 :root[data-theme='dark'],
-.dark {
-  --dot-flow: #a98bff;
-  --dot-flow-soft: #261d3d;
+:root.dark {
+  --dot-flow-purple: #a98bff;
+  --dot-flow-purple-soft: #261d3d;
+  --dot-flow-orange: #ec9672;
+  --dot-flow-orange-soft: #3a2219;
+  --dot-flow-claude: var(--dot-flow-purple);
+  --dot-flow-claude-soft: var(--dot-flow-purple-soft);
+}
+
+/* The active colours. Default purple; switch a whole page or any subtree with data-dot-flow. */
+:root,
+[data-dot-flow='purple'] {
+  --dot-flow: var(--dot-flow-purple);
+  --dot-flow-soft: var(--dot-flow-purple-soft);
+}
+[data-dot-flow='orange'] {
+  --dot-flow: var(--dot-flow-orange);
+  --dot-flow-soft: var(--dot-flow-orange-soft);
+}
+[data-dot-flow='claude'] {
+  --dot-flow: var(--dot-flow-claude);
+  --dot-flow-soft: var(--dot-flow-claude-soft);
 }
 
 /* Any box that should carry a field behind its content */
